@@ -33,7 +33,6 @@ func autorunDetected(autorun *autoruns.Autorun, signature string) *Detection {
 	}).Warning("DETECTION! Malicious autorun detected as ", signature)
 
 	detection := NewDetection("autorun", autorun.ImagePath, autorun.ImageName, signature, 0)
-	detection.ReportAndStore()
 
 	return detection
 }

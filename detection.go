@@ -106,23 +106,3 @@ func (d *Detection) Backup() error {
 	return nil
 }
 
-// ReportAndStore is a helper function that will correctly report to the API
-// server and store an entry in the local database. Created to avoid code reuse.
-func (d *Detection) ReportAndStore() error {
-	// If the report flag was enabled, we send the detection to the API server.
-	wasReported := false
-	if *report == true {
-		err := d.Report()
-		if err == nil {
-			wasReported = true
-		}
-	}
-
-	// If we're running in daemon mode, we store results locally.
-	if *daemon == true {
-		d.Store(wasReported)
-		d.Backup()
-	}
-
-	return nil
-}

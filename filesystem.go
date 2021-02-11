@@ -29,7 +29,6 @@ func fileDetected(filePath, signature string) *Detection {
 	}).Warning("DETECTION! Malicious file detected as ", signature)
 
 	detection := NewDetection("filesystem", filePath, "", signature, 0)
-	detection.ReportAndStore()
 
 	return detection
 }
