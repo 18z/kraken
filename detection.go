@@ -20,7 +20,6 @@ import (
 	"os"
 	"path/filepath"
 
-	log "github.com/Sirupsen/logrus"
 	"github.com/botherder/go-savetime/files"
 	"github.com/botherder/go-savetime/hashes"
 )
@@ -53,26 +52,6 @@ func NewDetection(recordType, imagePath, imageName, signature string, pid int32)
 		ProcessID: pid,
 		Signature: signature,
 	}
-}
-
-
-// Store stores the Detection record in the local SQLite database.
-func (d *Detection) Store(wasReported bool) error {
-	db := NewDatabase()
-	err := db.Open()
-	if err != nil {
-		log.Error(err.Error())
-		return err
-	}
-	defer db.Close()
-
-	_, err = db.StoreDetection(d, wasReported)
-	if err != nil {
-		log.Error(err.Error())
-		return err
-	}
-
-	return nil
 }
 
 // Backup will keep a copy

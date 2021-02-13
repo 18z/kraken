@@ -174,22 +174,3 @@ func (s *Scanner) ScanFile(filePath string) (yara.MatchRules, error) {
 	// Return any results.
 	return matches, nil
 }
-
-// ScanProc scans a process memory with the provided Yara rules.
-func (s *Scanner) ScanProc(pid int) (yara.MatchRules, error) {
-	var matches yara.MatchRules
-
-	// Check if the scanner is initialized correctly.
-	if s.Available == false {
-		return matches, errors.New("The scanner is not initialized")
-	}
-
-	// Scan a process memory.
-	err := s.Rules.ScanProc(pid, 0, 60, &matches)
-	if err != nil {
-		return matches, err
-	}
-
-	// Return any results.
-	return matches, nil
-}
