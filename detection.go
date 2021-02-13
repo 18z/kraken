@@ -55,20 +55,6 @@ func NewDetection(recordType, imagePath, imageName, signature string, pid int32)
 	}
 }
 
-// Report sends information on a detection tot he API server.
-func (d *Detection) Report() error {
-	// First we try to report the detection automatically, so that don't have
-	// to wait for the next heartbeat iterations in order to report it.
-	err := apiDetection(d)
-	// If the report was successful, we don't need to mark it as pending in the
-	// local database.
-	if err != nil {
-		log.Error(err.Error())
-		return err
-	}
-
-	return nil
-}
 
 // Store stores the Detection record in the local SQLite database.
 func (d *Detection) Store(wasReported bool) error {
