@@ -41,13 +41,6 @@ var config Config
 
 func initConfig() {
 	var baseDomain string
-	if *customBaseDomain != "" {
-		log.Debug("I was provided a custom backend: ", *customBaseDomain)
-		baseDomain = *customBaseDomain
-	} else {
-		log.Debug("I am going to use the default backend: ", DefaultBaseDomain)
-		baseDomain = DefaultBaseDomain
-	}
 
 	// Get folder and file name of standard config file.
 	fileName := filepath.Base(StorageConfig)

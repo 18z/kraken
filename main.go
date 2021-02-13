@@ -32,8 +32,6 @@ var (
 	daemon *bool
 	// This is a flag to enable remote reporting to API server.
 	report *bool
-	// This is a domain to the backend specified from command-line.
-	customBaseDomain *string
 	// This is a folder to be scanned instead of the default.
 	customFileSystemRoot *string
 	// This is a file or folder path containing the Yara rules to use.
@@ -46,8 +44,6 @@ var (
 
 func initArguments() {
 	debug = flag.Bool("debug", false, "Enable debug logs")
-	report = flag.Bool("report", false, "Enable reporting of events to the backend")
-	customBaseDomain = flag.String("backend", "", "Specify a particular hostname to the backend to connect to (overrides the default)")
 	customFileSystemRoot = flag.String("folder", "", "Specify a particular folder to be scanned (overrides the default full filesystem)")
 	customRulesPath = flag.String("rules", "", "Specify a particular path to a file or folder containing the Yara rules to use")
 	noFileSystemScan = flag.Bool("no-filesystem", false, "Disable scanning of filesystem")
@@ -77,21 +73,6 @@ func init() {
 	log.Debug("URLToRegister: ", config.URLToRegister)
 	log.Debug("URLToDetection: ", config.URLToDetection)
 	log.Debug("URLToAutorun: ", config.URLToAutorun)
-
-	// We register to the backend only if report is enabled.
-	if *report == true {
-		// Register to the API server.
-		err := apiRegister()
-		if err != nil {
-			log.Error("API registration failed: ", err.Error())
-		}
-
-		// Try to send an heartbeat.
-		err = apiHeartbeat()
-		if err != nil {
-			log.Error("Unable to send heartbeat to server: ", err.Error())
-		}
-	}
 }
 
 func main() {
